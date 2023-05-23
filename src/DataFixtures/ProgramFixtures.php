@@ -11,7 +11,7 @@ class ProgramFixtures extends Fixture implements DependentFixtureInterface
 {
     public function load(ObjectManager $manager): void
     {
-        for ($i = 0; $i < 6; $i++) {
+        for ($i = 0; $i < 20; $i++) {
             $categories = ['Fantastique', 'Horreur', 'Action', 'Aventure', 'Animation'];
             $randomCategory = $categories[array_rand($categories)];
             $program = new Program();

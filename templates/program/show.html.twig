@@ -4,6 +4,14 @@
 {% endblock %}
 
 {% block body %}
-	<h1>Program
-		{{id}}</h1>
+	<h1>Fiche program</h1>
+	<div>
+		<h2>{{ program.title }}
+			- Catégorie :
+			{{ program.category.name }}</h2>
+		<p>{{ program.synopsis }}</p>
+		{# Lien vers la fiche de la série : #}
+		<a href="{{ path("program_index") }}">Retour a la liste</a>
+	</div>
+
 {% endblock %}
