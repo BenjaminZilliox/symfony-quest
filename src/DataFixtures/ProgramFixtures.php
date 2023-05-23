@@ -2,30 +2,35 @@
 
 namespace App\DataFixtures;
 
+use Faker\Factory;
 use App\Entity\Program;
+use App\DataFixtures\CategoryFixtures;
+use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use Doctrine\Persistence\ObjectManager;
 
 class ProgramFixtures extends Fixture implements DependentFixtureInterface
 {
     public function load(ObjectManager $manager): void
     {
-        for ($i = 0; $i < 20; $i++) {
-            $categories = ['Fantastique', 'Horreur', 'Action', 'Aventure', 'Animation'];
-            $randomCategory = $categories[array_rand($categories)];
+        $faker = Factory::create();
+        for ($i = 0; $i < 50; $i++) {
             $program = new Program();
-            $program->setTitle('Program ' . $i);
-            $program->setSynopsis('Synopsis ' . $i);
-            $program->setCategory($this->getReference('category_' . $randomCategory));
+            $program->setTitle($faker->sentence());
+            $program->setSynopsis($faker->paragraphs(3, true));
+            $program->setPoster('https://i.pinimg.com/736x/b7/49/74/b74974c3c4728ce2063d9b9617216814.jpg');
+            $program->setCountry($faker->country());
+            $program->setYear($faker->year());
+            $randomCategoryKey = array_rand(CategoryFixtures::CATEGORIES);
+            $categoryName = CategoryFixtures::CATEGORIES[$randomCategoryKey];
+            $program->setCategory($this->getReference('categorie_' . $categoryName));
+            $this->addReference('program_' . $i, $program);
             $manager->persist($program);
         }
         $manager->flush();
     }
-
-    public function getDependencies()
+    public function getDependencies(): array
     {
-        // Tu retournes ici toutes les classes de fixtures dont ProgramFixtures dépend
         return [
             CategoryFixtures::class,
         ];
