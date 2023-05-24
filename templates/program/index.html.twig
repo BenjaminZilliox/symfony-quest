@@ -1,19 +1,19 @@
 {% extends 'base.html.twig' %}
 {% block title %}
-	{{ parent() }}- Series
+	Series
 {% endblock %}
 {% block body %}
 	<div class="container mt-4">
 		<h1>Series</h1>
 		{% for program in programs %}
 			<div class="mt-4">
-				<button type="button" class="btn btn-info disabled">Serie n°
+				<button type="button" class="btn disabled">Serie n°
 					{{ program.id }}</button>
-				<button type="button" class="btn btn-danger disabled">Category :
+				<button type="button" class="btn disabled">Category :
 					{{ program.category.name }}</button>
-				<button type="button" class="btn btn-success disabled">Country :
+				<button type="button" class="btn disabled">Country :
 					{{ program.country }}</button>
-				<button type="button" class="btn btn-warning disabled">Year :
+				<button type="button" class="btn disabled">Year :
 					{{ program.year }}</button>
 			</div>
 			<div class="mt-4">
@@ -27,15 +27,20 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr class="table-warning">
+					<tr class="table">
 						<td>{{ program.synopsis }}</td>
 						<td></td>
 					</tr>
 				</tbody>
 			</table>
-			<a href="{{ path("program_show", { id: program.id }) }}">Voir la fiche</a>
-		{% else %}
-			No series found
-		{% endfor %}
-	</div>
-{% endblock %}
+			<div class="row">
+				<div class="col-md-auto">
+					<a href="{{ path("program_show", { id: program.id }) }}" class="btn btn-primary">Voir la fiche</a>
+				</div>
+				<div class="col-md-auto"></div>
+				<hr class="hr mt-3"/>
+			{% else %}
+				No series found
+			{% endfor %}
+		</div>
+	{% endblock %}

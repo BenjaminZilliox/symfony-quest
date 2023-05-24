@@ -9,28 +9,28 @@
 		<div class="container mt-4">
 			<h1>{{ categories.name }}'s Series</h1>
 			<div class="mt-4">
-				<button type="button" class="btn btn-info disabled">Serie n°
+				<button type="button" class="btn disabled">Serie n°
 					{{ program.id }}</button>
-				<button type="button" class="btn btn-danger disabled">Category :
+				<button type="button" class="btn disabled">Category :
 					{{ program.category.name }}</button>
-				<button type="button" class="btn btn-success disabled">Country :
+				<button type="button" class="btn disabled">Country :
 					{{ program.country }}</button>
-				<button program="button" class="btn btn-warning disabled">Year :
+				<button program="button" class="btn disabled">Year :
 					{{ program.year }}</button>
 			</div>
 
-			<div class="card mb-3 border-primary d-inline-block mt-4">
+			<div class="card mb-3 d-inline-block mt-4">
 				<h2 class="card-header">{{ program.title }}</h2>
-				<img class="align-self-start m-4" src="{{program.poster}}" alt="{{ program.title }} poster">
+				<img class="align-self-start m-4 rounded" src="{{program.poster}}" alt="{{ program.title }} poster">
 				<rect width="100%" height="100%" fill="#868e96"></rect>
 				<div class="card-body">
 					<h2>Synopsis</h2>
-					<button type="button" class="btn btn-primary disabled mt-4">
+					<button type="button" class="btn disabled mt-4">
 						<p class="card-text">{{ program.synopsis }}</p>
 					</button>
 				</div>
 				<div class="card-footer">
-					<a href="{{ path("program_show", { id: program.id }) }}">See more details...
+					<a class="btn" href="{{ path("program_show", { id: program.id }) }}">See more details...
 					</a>
 				</div>
 			</div>
