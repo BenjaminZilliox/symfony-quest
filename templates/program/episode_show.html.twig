@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+{% block title %}Series
+{% endblock %}
+{% block body %}
+	<h1 class="m-3">{{ programs.title }}</h1>
+	<div class="container p-0">
+		<div class="row justify-content-center">
+			<div class="card m-3 p-0">
+				<div class="card-header d-flex">
+					<div>
+						Episode:
+						{{ episodes.number}}
+					</div>
+					<div class="mx-3">
+						Saison:
+						{{ seasons.number}}
+					</div>
+				</div>
+				<div class="card-body">
+					<h5 class="card-title">{{episodes.title}}</h5>
+					<p class="card-text">{{episodes.synopsis}}</p>
+					<a href="{{ path('program_season_show', {'programId': programs.id, 'seasonId': seasons.id}) }}" class="btn btn-primary">Retour à la liste des épisodes</a>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}

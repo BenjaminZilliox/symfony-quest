@@ -2,29 +2,28 @@
 {% block title %}
 	{{ parent() }}
 	- Serie -
-	{{ programs.title }}
+	{{ program.title }}
 {% endblock %}
 {% block body %}
 	<div class="container mt-4">
 		<div class="mt-4">
 			<button type="button" class="btn disabled">Serie n°
-				{{ programs.id }}</button>
+				{{ program.id }}</button>
 			<button type="button" class="btn disabled">Category :
-				{{ programs.category.name }}</button>
+				{{ program.category.name }}</button>
 			<button type="button" class="btn disabled">Country :
-				{{ programs.country }}</button>
+				{{ program.country }}</button>
 			<button type="button" class="btn disabled">Year :
-				{{ programs.year }}</button>
+				{{ program.year }}</button>
 		</div>
 		<div class="card mb-3 d-inline-block mt-4" style="max-width: 800px;">
 			<h2 class="card-header">Title :
-				{{ programs.title }}</h2>
-			<img class="align-self-start m-4 img-fluid rounded" src="{{programs.poster}}" alt="{{ programs.title }} poster">
-			<rect width="100%" height="100%" fill="#868e96"></rect>
+				{{ program.title }}</h2>
+			<img class="align-self-start m-4 img-fluid rounded" src="{{program.poster}}" alt="{{ program.title }} poster">
 			<div class="card-body">
 				<h2>Synopsis</h2>
 				<button type="button" class="btn disabled mt-2">
-					<p class="card-text">{{ programs.synopsis }}</p>
+					<p class="card-text">{{ program.synopsis }}</p>
 				</button>
 			</div>
 			<div class="dropdown m-3">
@@ -33,8 +32,8 @@
 						Saisons
 					</a>
 					<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-						{% for season in programs.seasons %}
-							<a class="dropdown-item" href="{{ path('program_season_show', {'programId': programs.id, 'seasonId': season.id}) }}">Saison
+						{% for season in program.seasons %}
+							<a class="dropdown-item" href="{{ path('program_season_show', {'programId': program.id, 'seasonId': season.id}) }}">Saison
 								{{ season.number }}</a>
 							<hr class="hr">
 						{% endfor %}

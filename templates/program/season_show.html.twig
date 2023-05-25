@@ -14,7 +14,8 @@
 							<h5 class="card-title">{{ episode.title }}</h5>
 							<p class="card-text">Episode
 								{{ episode.number }}</p>
-							<a href="#" class="btn btn-primary">Voir l'épisode</a>
+							<a href="{{ path('program_episode_show', {'programId': programs.id, 'seasonId': seasons.id, 'episodeId': episode.id}) }}" class="btn btn-primary">Voir l'épisode</a>
+
 						</div>
 					</div>
 				</div>
