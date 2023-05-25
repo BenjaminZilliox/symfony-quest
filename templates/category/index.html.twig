@@ -4,8 +4,11 @@
 {% endblock %}
 
 {% block body %}
-	<h1>Toutes les catégories:
-	</h1>
+	<div class="container d-flex justify-content-between mt-3">
+		<h1>Toutes les catégories:
+		</h1>
+		<a class="btn btn-secondary py-3" href="{{ path('category_new') }}">Ajouter une catégorie</a>
+	</div>
 	<div class="list-group m-3">
 		{% for category in categories %}
 			<button type="button" class="list-group-item list-group-item-action">
