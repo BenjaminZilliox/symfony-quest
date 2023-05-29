@@ -18,7 +18,7 @@ class Actor
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\ManyToMany(targetEntity: Program::class, inversedBy: 'actors')]
+    #[ORM\ManyToMany(targetEntity: Program::class, inversedBy: 'actors', cascade: ['persist'])]
     private Collection $programs;
 
     public function __construct()
