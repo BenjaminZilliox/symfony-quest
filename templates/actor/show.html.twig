@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	{{actor.name}}
+{% endblock %}
+
+
+{% block body %}
+	<h2 class="m-4">{{actor.name}}</h2>
+	{% for program in actor.programs %}
+		<div class="card m-4">
+			<img class="card-img-top" src="..." alt="Card image cap">
+			<div class="card-body">
+				<h5 class="card-title">{{program.title}}</h5>
+				<p class="card-text">{{program.synopsis}}</p>
+				<a href="{{path("program_show",{id:program.id})}}" class="btn btn-primary">Voir la série</a>
+			</div>
+		</div>
+	{% endfor %}
+{% endblock %}

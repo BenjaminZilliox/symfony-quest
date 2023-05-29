@@ -14,7 +14,7 @@ class EpisodeFixtures extends Fixture implements DependentFixtureInterface
     public function load(ObjectManager $manager): void
     {
         $faker = Factory::create();
-        for ($i = 0; $i < 50; $i++) {
+        for ($i = 0; $i < 10; $i++) {
             for ($j = 0; $j < 5; $j++) {
                 $seasonReference = 'season_' . $i . '_' . $j;
                 for ($k = 0; $k < 10; $k++) {
