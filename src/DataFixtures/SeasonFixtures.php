@@ -7,10 +7,17 @@ use App\Entity\Season;
 use App\DataFixtures\ProgramFixtures;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Symfony\Component\String\Slugger\SluggerInterface;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 
 class SeasonFixtures extends Fixture implements DependentFixtureInterface
 {
+    private SluggerInterface $slugger;
+
+    public function __construct(SluggerInterface $slugger)
+    {
+        $this->slugger = $slugger;
+    }
     public function load(ObjectManager $manager): void
     {
         $faker = Factory::create();
@@ -19,6 +26,8 @@ class SeasonFixtures extends Fixture implements DependentFixtureInterface
             for ($j = 0; $j < 5; $j++) {
                 $season = new Season();
                 $season->setNumber($j + 1);
+                $slug = $this->slugger->slug($season->getNumber());
+                $season->setSlug($slug);
                 $season->setYear($faker->year());
                 $season->setDescription($faker->paragraphs(3, true));
                 $season->setProgram($this->getReference($programReference));

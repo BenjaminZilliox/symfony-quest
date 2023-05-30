@@ -25,7 +25,7 @@
 				<ul>
 					{% for actor in program.actors %}
 						<li>
-							<a href="{{ path('actor_show', {'id': actor.id}) }}">{{ actor.name }}</a>
+							<a href="{{ path('actor_show', {'slug': actor.slug}) }}">{{ actor.name }}</a>
 						</li>
 					{% else %}
 						<li>Aucun acteur pour cette série</li>
@@ -43,7 +43,7 @@
 					</a>
 					<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
 						{% for season in program.seasons %}
-							<a class="dropdown-item" href="{{ path('program_season_show', {'programId': program.id, 'seasonId': season.id}) }}">Saison
+							<a class="dropdown-item" href="{{ path('program_season_show', {'slug': program.slug, 'seasonId': season.slug}) }}">Saison
 								{{ season.number }}</a>
 							<hr class="hr">
 						{% endfor %}

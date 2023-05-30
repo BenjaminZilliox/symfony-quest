@@ -19,7 +19,7 @@
 				<div class="card-body">
 					<h5 class="card-title">{{episodes.title}}</h5>
 					<p class="card-text">{{episodes.synopsis}}</p>
-					<a href="{{ path('program_season_show', {'programId': programs.id, 'seasonId': seasons.id}) }}" class="btn btn-primary">Retour à la liste des épisodes</a>
+					<a href="{{ path('program_season_show', {'slug': programs.slug, 'seasonId': seasons.slug}) }}" class="btn btn-primary">Retour à la liste des épisodes</a>
 				</div>
 			</div>
 		</div>

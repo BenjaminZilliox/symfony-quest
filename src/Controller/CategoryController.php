@@ -9,6 +9,7 @@ use App\Repository\CategoryRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 #[Route('/category', name: 'category_', methods: ['GET'])]
@@ -25,12 +26,14 @@ class CategoryController extends AbstractController
     }
 
     #[Route('/new', name: 'new', methods: ['POST'])]
-    public function new(Request $request, CategoryRepository $categoryRepository): Response
+    public function new(Request $request, CategoryRepository $categoryRepository, SluggerInterface $slugger): Response
     {
         $category = new Category();
         $form = $this->createForm(CategoryType::class, $category);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            $slug = $slugger->slug($category->getName());
+            $category->setSlug($slug);
             $categoryRepository->save($category, true);
             $this->addFlash('success', 'Category created successfully!');
             return $this->redirectToRoute('category_index');

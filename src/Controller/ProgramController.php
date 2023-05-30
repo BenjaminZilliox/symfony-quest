@@ -6,14 +6,15 @@ use App\Entity\Season;
 use App\Entity\Episode;
 use App\Entity\Program;
 use App\Form\ProgramType;
-use App\Repository\SeasonRepository;
 use App\Repository\EpisodeRepository;
 use App\Repository\ProgramRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\String\Slugger\SluggerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 #[Route("/program", name: "program_")]
 class ProgramController extends AbstractController
@@ -29,12 +30,14 @@ class ProgramController extends AbstractController
     }
 
     #[Route('/new', name: 'new', methods: ['GET', 'POST'])]
-    public function new(Request $request, ProgramRepository $programRepository): Response
+    public function new(Request $request, ProgramRepository $programRepository, SluggerInterface $slugger): Response
     {
         $program = new Program();
         $form = $this->createForm(ProgramType::class, $program);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            $slug = $slugger->slug($program->getTitle());
+            $program->setSlug($slug);
             $programRepository->save($program, true);
             $this->addFlash('success', 'Program created successfully!');
             return $this->redirectToRoute('program_index');
@@ -45,7 +48,7 @@ class ProgramController extends AbstractController
         ]);
     }
 
-    #[Route("/{id}", requirements: ['page' => '\d+'], name: "show", methods: ['GET'])]
+    #[Route("/{slug}", requirements: ['page' => '\d+'], name: "show", methods: ['GET'])]
     public function show(Program $program): Response
     {
         $seasons = $program->getSeasons();
@@ -60,9 +63,9 @@ class ProgramController extends AbstractController
         ]);
     }
 
-    #[Route("/{programId}/seasons/{seasonId}", requirements: ['programId' => '\d+', 'seasonId' => '\d+'], name: "season_show", methods: ['GET'])]
-    #[Entity('program', expr: 'repository.find(programId)')]
-    #[Entity('season', expr: 'repository.find(seasonId)')]
+    #[Route("/{slug}/seasons/{seasonId}", name: "season_show", methods: ['GET'])]
+    #[ParamConverter('program', options: ['mapping' => ['slug' => 'slug']])]
+    #[ParamConverter('season', options: ['mapping' => ['seasonId' => 'slug']])]
     public function showSeason(
         Program $program,
         Season $season,
@@ -87,10 +90,10 @@ class ProgramController extends AbstractController
         ]);
     }
 
-    #[Route("/{programId}/seasons/{seasonId}/episodes/{episodeId}", requirements: ['programId' => '\d+', 'seasonId' => '\d+', 'episodeId' => '\d+'], name: "episode_show", methods: ['GET'])]
-    #[Entity('program', expr: 'repository.find(programId)')]
-    #[Entity('season', expr: 'repository.find(seasonId)')]
-    #[Entity('episode', expr: 'repository.find(episodeId)')]
+    #[Route("/{programSlug}/seasons/{seasonSlug}/episodes/{episodeSlug}", name: "episode_show", methods: ['GET'])]
+    #[ParamConverter('program', options: ['mapping' => ['programSlug' => 'slug']])]
+    #[ParamConverter('season', options: ['mapping' => ['seasonSlug' => 'slug']])]
+    #[ParamConverter('episode', options: ['mapping' => ['episodeSlug' => 'slug']])]
     public function showEpisode(
         Program $program,
         Season $season,
