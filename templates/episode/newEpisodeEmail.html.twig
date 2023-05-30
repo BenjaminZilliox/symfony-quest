@@ -1,0 +1,18 @@
+{% extends "layoutEmail.html.twig" %}
+{% block emailTitle %}
+	{{ episode.title }}
+{% endblock %}
+{% block itemTitle %}
+	episode
+	{{ episode.title }}
+	season
+	{{ episode.season.number }}
+	of the program
+	{{ episode.season.program.title }}
+{% endblock %}
+{% block itemSynopsis %}
+	{{episode.synopsis }}
+{% endblock %}
+{% block itemLink %}
+	<a href="{{ url('program_episode_show', {'programSlug': episode.season.program.slug, 'seasonSlug': episode.season.slug, 'episodeSlug': episode.slug}) }}" class="btn btn-primary">Voir l'épisode</a>
+{% endblock %}
