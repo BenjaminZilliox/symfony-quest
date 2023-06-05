@@ -4,17 +4,21 @@
 	{{actor.name}}
 {% endblock %}
 
-
 {% block body %}
 	<h2 class="m-4">{{actor.name}}</h2>
-	{% for program in actor.programs %}
-		<div class="card m-4">
-			<img class="card-img-top" src="..." alt="Card image cap">
-			<div class="card-body">
-				<h5 class="card-title">{{program.title}}</h5>
-				<p class="card-text">{{program.synopsis}}</p>
-				<a href="{{path("program_show",{slug:program.slug})}}" class="btn btn-primary">Voir la série</a>
+	<img class="img-thumbnail rounded m-4" style="width: 18rem;" src="{{ vich_uploader_asset(actor)}}" alt="{{actor.name}}">
+	<div class="row">
+		{% for program in actor.programs %}
+			<div class="col-md-3 m-4">
+				<div class="card h-100">
+					<img class="card-img-top " src="{{ vich_uploader_asset(program)}}" alt="{{program.title}}">
+					<div class="card-body">
+						<h5 class="card-title">{{program.title}}</h5>
+						<p class="card-text">{{program.synopsis}}</p>
+						<a href="{{path("program_show",{slug:program.slug})}}" class="btn btn-primary">Voir la série</a>
+					</div>
+				</div>
 			</div>
-		</div>
-	{% endfor %}
+		{% endfor %}
+	</div>
 {% endblock %}

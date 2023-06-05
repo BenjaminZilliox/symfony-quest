@@ -19,7 +19,8 @@
 		<div class="card mb-3 d-inline-block mt-4" style="max-width: 800px;">
 			<h2 class="card-header">Title :
 				{{ program.title }}</h2>
-			<img class="align-self-start m-4 img-fluid rounded" src="{{program.poster}}" alt="{{ program.title }} poster">
+			<img class="align-self-start m-4 img-fluid rounded" src="{{ vich_uploader_asset(program) }}" alt="{{ program.title }} poster">
+
 			<div class="card-body">
 				<strong>Acteurs :</strong>
 				<ul>

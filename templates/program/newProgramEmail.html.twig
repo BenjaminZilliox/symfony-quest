@@ -9,3 +9,6 @@
 {% block itemSynopsis %}
 	{{program.synopsis }}
 {% endblock %}
+{% block itemLink %}
+	<a href="{{ url("program_show", { slug: program.slug }) }}" class="btn btn-primary">Voir la fiche</a>
+{% endblock %}
