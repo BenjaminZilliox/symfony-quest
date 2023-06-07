@@ -7,7 +7,7 @@
 				<div class="card-header">
 					Commentaire de
 					{{ comment.author.username|default('Anonyme') }},
-										posté le :
+																																								posté le :
 					{{ comment.createdAt|date('d/m/Y H:i:s') }}
 				</div>
 				<div class="card-body">
@@ -16,6 +16,12 @@
 					<p class="card-text">Note :
 						{{ comment.rate }}</p>
 					<a href="{{ path('program_episode_show', { 'programSlug': comment.episode.season.program.slug, 'seasonSlug': comment.episode.season.slug, 'episodeSlug': comment.episode.slug }) }}" class="btn btn-primary">Retour à l'épisode</a>
+					{% if is_granted("ROLE_ADMIN") or (app.user and app.user == comment.author) %}
+						<form method="post" action="{{ path('comment_delete', {'id': comment.id}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
+							<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ comment.id) }}">
+							<button class="btn btn-primary mt-3">Supprimer le commentaire</button>
+						</form>
+					{% endif %}
 				</p>
 			</div>
 		</div>

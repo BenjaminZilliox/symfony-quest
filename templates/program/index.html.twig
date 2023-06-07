@@ -36,6 +36,9 @@
 			<div class="row">
 				<div class="col-md-auto">
 					<a href="{{ path("program_show", { slug: program.slug }) }}" class="btn btn-primary">Voir la fiche</a>
+					{% if is_granted("ROLE_ADMIN") %}
+						<a href="{{ path("program_edit", { slug: program.slug }) }}" class="btn btn-primary mx-3">Modifier</a>
+					{% endif %}
 				</div>
 				<div class="col-md-auto"></div>
 				<hr class="hr mt-3"/>

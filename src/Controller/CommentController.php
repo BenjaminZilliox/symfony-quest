@@ -10,6 +10,7 @@ use App\Repository\EpisodeRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 #[Route('/comment', name: 'comment_')]
@@ -24,6 +25,7 @@ class CommentController extends AbstractController
     }
 
     #[Route('/new/{episodeId}', name: 'new', methods: ['GET', 'POST'])]
+    #[IsGranted("ROLE_CONTRIBUTOR")]
     public function new(Request $request, CommentRepository $commentRepository, EpisodeRepository $episodeRepository, int $episodeId): Response
     {
         $comment = new Comment();
@@ -57,6 +59,18 @@ class CommentController extends AbstractController
         return $this->render('comment/show.html.twig', [
             'comments' => $comments,
         ]);
+    }
+
+    #[Route('/{id}', name: 'delete', methods: ['POST'])]
+    public function delete(Request $request, Comment $comment, CommentRepository $commentRepository): Response
+    {
+        $episode = $comment->getEpisode();
+        if ($this->isCsrfTokenValid('delete' . $comment->getId(), $request->request->get('_token'))) {
+            $commentRepository->remove($comment, true);
+            $this->addFlash('danger', 'Comment deleted successfully!');
+        }
+
+        return $this->redirectToRoute('comment_show', ['id' => $episode->getId()]);
     }
 
 

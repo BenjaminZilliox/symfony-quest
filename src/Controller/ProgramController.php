@@ -40,6 +40,7 @@ class ProgramController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $slug = $slugger->slug($program->getTitle());
             $program->setSlug($slug);
+            $program->setOwner($this->getUser());
             $programRepository->save($program, true);
             $email = (new Email())
                 ->from($this->getParameter('mailer_from'))
@@ -55,6 +56,39 @@ class ProgramController extends AbstractController
         return $this->render('program/new.html.twig', [
             'form' => $form->createView(),
         ]);
+    }
+
+    #[Route("/{slug}/edit", name: "edit", methods: ['GET', 'POST'])]
+    #[Route("/", name: 'app_home')]
+    #[ParamConverter('program', options: ['mapping' => ['slug' => 'slug']])]
+    public function edit(Request $request, Program $program, ProgramRepository $programRepository, SluggerInterface $slugger): Response
+    {
+        if ($this->getUser() !== $program->getOwner()) {
+            throw $this->createAccessDeniedException('You are not allowed to access this page');
+        }
+        $form = $this->createForm(ProgramType::class, $program);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $slug = $slugger->slug($program->getTitle());
+            $program->setSlug($slug);
+            $programRepository->save($program, true);
+            $this->addFlash('success', 'Program updated successfully!');
+            return $this->redirectToRoute('program_index');
+        }
+        return $this->render('program/edit.html.twig', [
+            'program' => $program,
+            'form' => $form->createView(),
+        ]);
+    }
+
+    #[Route('/{id}', name: 'delete', methods: ['POST'])]
+    public function delete(Request $request, Program $program, ProgramRepository $programRepository): Response
+    {
+        if ($this->isCsrfTokenValid('delete' . $program->getId(), $request->request->get('_token'))) {
+            $programRepository->remove($program, true);
+            $this->addFlash('danger', 'Program deleted successfully!');
+        }
+        return $this->redirectToRoute('program_index', [], Response::HTTP_SEE_OTHER);
     }
 
     #[Route("/{slug}", requirements: ['page' => '\d+'], name: "show", methods: ['GET'])]

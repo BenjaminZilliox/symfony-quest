@@ -9,6 +9,7 @@ use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Symfony\Component\String\Slugger\SluggerInterface;
+use App\DataFixtures\UserFixtures;
 
 class ProgramFixtures extends Fixture implements DependentFixtureInterface
 {
@@ -22,6 +23,8 @@ class ProgramFixtures extends Fixture implements DependentFixtureInterface
     public function load(ObjectManager $manager): void
     {
         $faker = Factory::create();
+        $admin = $this->getReference('admin');
+        $contributor = $this->getReference('contributor');
         for ($i = 0; $i < 10; $i++) {
             $program = new Program();
             $program->setTitle($faker->sentence());
@@ -35,6 +38,8 @@ class ProgramFixtures extends Fixture implements DependentFixtureInterface
             $categoryName = CategoryFixtures::CATEGORIES[$randomCategoryKey];
             $program->setCategory($this->getReference('categorie_' . $categoryName));
             $this->addReference('program_' . $i, $program);
+            $user = $i % 2 === 0 ? $contributor : $admin;
+            $program->setOwner($user);
             $manager->persist($program);
         }
         $manager->flush();
@@ -43,6 +48,7 @@ class ProgramFixtures extends Fixture implements DependentFixtureInterface
     {
         return [
             CategoryFixtures::class,
+            UserFixtures::class,
         ];
     }
 }
