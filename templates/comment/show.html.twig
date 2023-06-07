@@ -1,0 +1,23 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+	<div class="container">
+		{% for comment in comments %}
+			<div class="card m-4">
+				<div class="card-header">
+					Commentaire de
+					{{ comment.author.username|default('Anonyme') }},
+										posté le :
+					{{ comment.createdAt|date('d/m/Y H:i:s') }}
+				</div>
+				<div class="card-body">
+					<h5 class="card-title">{{ comment.episode.title }}</h5>
+					<p class="card-text">{{ comment.comment }}</p>
+					<p class="card-text">Note :
+						{{ comment.rate }}</p>
+					<a href="{{ path('program_episode_show', { 'programSlug': comment.episode.season.program.slug, 'seasonSlug': comment.episode.season.slug, 'episodeSlug': comment.episode.slug }) }}" class="btn btn-primary">Retour à l'épisode</a>
+				</p>
+			</div>
+		</div>
+	{% endfor %}
+</div>{% endblock %}

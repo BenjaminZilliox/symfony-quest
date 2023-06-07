@@ -35,7 +35,6 @@ class EpisodeController extends AbstractController
             $slug = $slugger->slug($episode->getTitle());
             $episode->setSlug($slug);
             $episodeRepository->save($episode, true);
-            // dd($episode);
             $email = (new Email())
                 ->from($this->getParameter('mailer_from'))
                 ->to('your_email@example.com')
