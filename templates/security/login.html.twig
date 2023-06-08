@@ -10,7 +10,7 @@
 	<div class="container w-50">
 		<h1 class="mt-4">Connexion</h1>
 		<form action="{{ path('security.login') }}" method="post">
-			<div class="form-group">
+			<div class="form-group mt-3">
 				<label for="username">Adresse email</label>
 				<input type="email" class="form-control" id="username" name="_username" value="{{ last_username }}" placeholder="exemple@email.fr">
 				<small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
@@ -18,8 +18,10 @@
 			<div class="form-group">
 				<label for="password">Mot de passe</label>
 				<input type="password" class="form-control" id="password" name="_password" placeholder="********">
+				<a href="{{ path('app_forgot_password_request') }}" class="link-info link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">Mot de passe oublié</a>
 			</div>
 			<button type="submit" class="btn btn-primary mt-4">Connexion</button>
+			<a href="{{path('app_register')}}" class='btn btn-secondary mt-4 mx-3'>Créer un compte</a>
 		</form>
 	</div>
 {% endblock %}

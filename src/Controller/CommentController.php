@@ -25,7 +25,7 @@ class CommentController extends AbstractController
     }
 
     #[Route('/new/{episodeId}', name: 'new', methods: ['GET', 'POST'])]
-    #[IsGranted("ROLE_CONTRIBUTOR")]
+    #[IsGranted("ROLE_USER")]
     public function new(Request $request, CommentRepository $commentRepository, EpisodeRepository $episodeRepository, int $episodeId): Response
     {
         $comment = new Comment();
