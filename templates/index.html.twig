@@ -5,6 +5,8 @@
 
 
 {% block body %}
-	<h1>Bienvenue !!!</h1>
+	<h1 {{ stimulus_controller('symfony/ux-typed', { strings: [ 'Bienvenue sur Wild Series', 'Bienvenue, Venez parcourir notre catalogue', 'Bienvenue, Ajoutez vos series', 'Bienvenue, Commentez et notez les séries disponible' ], smartBackspace: true, backSpeed: 20, backDelay: 500, loop: true, showCursor: true, } ) }}></h1>
+
+
 	<img src="{{ asset('build/images/logo1.jpg') }}" alt="" class="imgIndex"/>
 {% endblock %}
