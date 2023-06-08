@@ -38,24 +38,22 @@
 				</button>
 			</div>
 			<div class="dropdown m-3">
-				<div class="dropdown show">
-					<a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-						Saisons
-					</a>
-					<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-						{% for season in program.seasons %}
-							<a class="dropdown-item" href="{{ path('program_season_show', {'slug': program.slug, 'seasonId': season.slug}) }}">Saison
-								{{ season.number }}</a>
-							<hr class="hr">
-						{% endfor %}
-					</div>
+				<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+					Saisons
+				</button>
+				<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+					{% for season in program.seasons %}
+						<a class="dropdown-item" href="{{ path('program_season_show', {'slug': program.slug, 'seasonId': season.slug}) }}">Saison
+							{{ season.number }}</a>
+						<hr class="hr">
+					{% endfor %}
 				</div>
 			</div>
-			<div class="card-footer">
-				<a href="{{ path('program_index') }}" class="btn">
-					Return to list of series
-				</a>
-			</div>
+		</div>
+		<div class="card-footer">
+			<a href="{{ path('program_index') }}" class="btn">
+				Return to list of series
+			</a>
 		</div>
 	</div>
-{% endblock %}
+</div>{% endblock %}
