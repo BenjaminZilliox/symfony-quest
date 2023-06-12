@@ -6,6 +6,7 @@ use App\Entity\Season;
 use App\Entity\Episode;
 use App\Entity\Program;
 use App\Form\ProgramType;
+use App\Form\SearchProgramType;
 use Symfony\Component\Mime\Email;
 use App\Repository\EpisodeRepository;
 use App\Repository\ProgramRepository;
@@ -21,13 +22,22 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 #[Route("/program", name: "program_")]
 class ProgramController extends AbstractController
 {
-    #[Route("/", name: "index", methods: ['GET'])]
-    public function index(
-        ProgramRepository $programRepository
-    ): Response {
-        $programs = $programRepository->findAll();
+    #[Route("/", name: "index", methods: ['GET', 'POST'])]
+    public function index(Request $request, ProgramRepository $programRepository): Response
+    {
+        $form = $this->createForm(SearchProgramType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $search = $form->getData()['search'];
+            $programs = $programRepository->findLikeName($search);
+        } else {
+            $programs = $programRepository->findAll();
+        }
+
         return $this->render('program/index.html.twig', [
             'programs' => $programs,
+            'form' => $form,
         ]);
     }
 
