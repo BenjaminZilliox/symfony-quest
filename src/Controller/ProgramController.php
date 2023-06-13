@@ -2,14 +2,17 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
 use App\Entity\Season;
 use App\Entity\Episode;
 use App\Entity\Program;
 use App\Form\ProgramType;
 use App\Form\SearchProgramType;
 use Symfony\Component\Mime\Email;
+use App\Repository\UserRepository;
 use App\Repository\EpisodeRepository;
 use App\Repository\ProgramRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\HttpFoundation\Response;
@@ -172,5 +175,27 @@ class ProgramController extends AbstractController
             'seasons' => $season,
             'episodes' => $episode,
         ]);
+    }
+
+    #[Route("/{id}/watchlist", name: "watchlist", methods: ['GET', 'POST'])]
+    public function addToWatchlist(Program $program, UserRepository $userRepository): Response
+    {
+        if (!$program) {
+            throw $this->createNotFoundException(
+                'No program with this id found in program\'s table.'
+            );
+        }
+
+        /** @var \App\Entity\User */
+        $user = $this->getUser();
+        if ($user->isInWatchlist($program)) {
+            $user->removeFromWatchlist($program);
+        } else {
+            $user->addToWatchlist($program);
+        }
+
+        $userRepository->save($user, true);
+
+        return $this->redirectToRoute('program_show', ['slug' => $program->getSlug()], Response::HTTP_SEE_OTHER);
     }
 }

@@ -19,6 +19,13 @@
 					{{ program.country }}</button>
 				<button type="button" class="btn disabled">Year :
 					{{ program.year }}</button>
+				{% if app.user %}
+					<a href="{{ path('program_watchlist', {id: program.id})}}">
+						<button class="btn btn-outline-secondary">Watchlist :
+							<i class="bi {{app.user.isInWatchlist(program) ? 'bi-heart-fill' : 'bi-heart' }}"></i>
+						</button>
+					</a>
+				{% endif %}
 			</div>
 			<div class="mt-4">
 				<h2>Title :
