@@ -16,51 +16,49 @@
 			<button type="button" class="btn disabled">Year :
 				{{ program.year }}</button>
 			{% if app.user %}
-				<a href="{{ path('program_watchlist', {id: program.id})}}">
-					<button class="btn btn-outline-secondary">Watchlist :
-						<i class="bi {{app.user.isInWatchlist(program) ? 'bi-heart-fill' : 'bi-heart' }}"></i>
-					</button>
+				<a id="watchlist" class="no-swup" href="{{ path('program_watchlist', {id: program.id})}}">
+					<i class="btn btn-outline-secondary bi {{app.user.isInWatchlist(program) ? 'bi-heart-fill' : 'bi-heart' }}"></i>
 				</a>
 			{% endif %}
-		</div>
-		<div class="card mb-3 d-inline-block mt-4" style="max-width: 800px;">
-			<h2 class="card-header">Title :
-				{{ program.title }}</h2>
-			<img class="align-self-start m-4 img-fluid rounded" src="{{ vich_uploader_asset(program) }}" alt="{{ program.title }} poster">
+			<div class="card mb-3 d-inline-block mt-4" style="max-width: 800px;">
+				<h2 class="card-header">Title :
+					{{ program.title }}</h2>
+				<img class="align-self-start m-4 img-fluid rounded" src="{{ vich_uploader_asset(program) }}" alt="{{ program.title }} poster">
 
-			<div class="card-body">
-				<strong>Acteurs :</strong>
-				<ul>
-					{% for actor in program.actors %}
-						<li>
-							<a href="{{ path('actor_show', {'slug': actor.slug}) }}">{{ actor.name }}</a>
-						</li>
-					{% else %}
-						<li>Aucun acteur pour cette série</li>
-					{% endfor %}
-				</ul>
-				<h2>Synopsis</h2>
-				<button type="button" class="btn disabled mt-2">
-					<p class="card-text">{{ program.synopsis }}</p>
-				</button>
-			</div>
-			<div class="dropdown m-3">
-				<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-					Saisons
-				</button>
-				<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-					{% for season in program.seasons %}
-						<a class="dropdown-item" href="{{ path('program_season_show', {'slug': program.slug, 'seasonId': season.slug}) }}">Saison
-							{{ season.number }}</a>
-						<hr class="hr">
-					{% endfor %}
+				<div class="card-body">
+					<strong>Acteurs :</strong>
+					<ul>
+						{% for actor in program.actors %}
+							<li>
+								<a href="{{ path('actor_show', {'slug': actor.slug}) }}">{{ actor.name }}</a>
+							</li>
+						{% else %}
+							<li>Aucun acteur pour cette série</li>
+						{% endfor %}
+					</ul>
+					<h2>Synopsis</h2>
+					<button type="button" class="btn disabled mt-2">
+						<p class="card-text">{{ program.synopsis }}</p>
+					</button>
+				</div>
+				<div class="dropdown m-3">
+					<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+						Saisons
+					</button>
+					<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+						{% for season in program.seasons %}
+							<a class="dropdown-item" href="{{ path('program_season_show', {'slug': program.slug, 'seasonId': season.slug}) }}">Saison
+								{{ season.number }}</a>
+							<hr class="hr">
+						{% endfor %}
+					</div>
 				</div>
 			</div>
-		</div>
-		<div class="card-footer">
-			<a href="{{ path('program_index') }}" class="btn">
-				Return to list of series
-			</a>
+			<div class="card-footer">
+				<a href="{{ path('program_index') }}" class="btn">
+					Return to list of series
+				</a>
+			</div>
 		</div>
 	</div>
-</div>{% endblock %}
+{% endblock %}
